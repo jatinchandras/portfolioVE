@@ -28,93 +28,42 @@
 }
 
 /* ============================================
-   INTRO LOADER — NETFLIX STYLE
+   INTRO — QUOTE FADE
    ============================================ */
-
-/* Whole overlay fades out after JC zooms */
 #intro {
   position: fixed; inset: 0; z-index: 99999;
   background: #000;
   display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-  pointer-events: all;
-  animation: introFadeOut 0.55s ease-out 2.55s forwards;
+  animation: introFadeOut 0.7s ease 2.5s forwards;
 }
 @keyframes introFadeOut {
-  to { opacity: 0; pointer-events: none; }
+  to { opacity: 0; visibility: hidden; }
 }
-
-/* Expanding ring ripples — fire from center behind JC */
-.ripple-1, .ripple-2, .ripple-3,
-.ripple-4, .ripple-5, .ripple-6 {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 0; height: 0;
-  border-radius: 50%;
-  border: 2px solid rgba(255, 30, 10, 1);
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0;
-  box-shadow: 0 0 12px rgba(229,9,20,0.8), inset 0 0 12px rgba(229,9,20,0.4);
+.intro-quote {
+  text-align: center;
+  padding: 0 24px;
+  animation: quoteIn 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s both;
 }
-.ripple-1 { animation: ringExpand 1.3s cubic-bezier(0.15, 0.6, 0.35, 1) 0.45s forwards; }
-.ripple-2 { animation: ringExpand 1.3s cubic-bezier(0.15, 0.6, 0.35, 1) 0.52s forwards; }
-.ripple-3 { animation: ringExpand 1.3s cubic-bezier(0.15, 0.6, 0.35, 1) 0.59s forwards; }
-.ripple-4 { animation: ringExpand 1.3s cubic-bezier(0.15, 0.6, 0.35, 1) 0.66s forwards; }
-.ripple-5 { animation: ringExpand 1.3s cubic-bezier(0.15, 0.6, 0.35, 1) 0.73s forwards; }
-.ripple-6 { animation: ringExpand 1.3s cubic-bezier(0.15, 0.6, 0.35, 1) 0.80s forwards; }
-
-@keyframes ringExpand {
-  0%   { opacity: 1;   width: 80px;    height: 80px;    border-color: rgba(255,30,10,1);  box-shadow: 0 0 20px rgba(229,9,20,1), inset 0 0 20px rgba(229,9,20,0.6); }
-  20%  { opacity: 0.8; }
-  60%  { opacity: 0.4; }
-  100% { opacity: 0;   width: 260vmax; height: 260vmax; border-color: rgba(229,9,20,0);  box-shadow: none; }
+@keyframes quoteIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-
-/* JC — one seamless keyframe: slam in → glow hold → zoom past */
-.intro-content {
-  position: relative; z-index: 2;
-  display: flex; align-items: center; justify-content: center;
+.quote-text {
+  font-family: var(--font-head);
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 1.1;
+  letter-spacing: 4px;
+  color: var(--text);
 }
-.intro-jc {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(120px, 25vw, 280px);
-  line-height: 1;
-  letter-spacing: 12px;
-  color: #E50914;
-  position: relative; z-index: 2;
-  animation: jcFull 2.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-@keyframes jcFull {
-  /* slam in */
-  0% {
-    opacity: 0;
-    transform: scale(0.1);
-    text-shadow: none;
-  }
-  16% {
-    opacity: 1;
-    transform: scale(1.08);
-    text-shadow: 0 0 40px rgba(229,9,20,0.9), 0 0 80px rgba(229,9,20,0.5);
-  }
-  24% {
-    transform: scale(1);
-    text-shadow: 0 0 70px rgba(229,9,20,1), 0 0 140px rgba(229,9,20,0.65), 0 0 220px rgba(229,9,20,0.35);
-  }
-  /* glow hold — ripples fire during this window */
-  50% {
-    opacity: 1;
-    transform: scale(1);
-    text-shadow: 0 0 55px rgba(229,9,20,0.9), 0 0 110px rgba(229,9,20,0.55), 0 0 180px rgba(229,9,20,0.25);
-  }
-  /* zoom past screen */
-  100% {
-    opacity: 0;
-    transform: scale(18);
-    text-shadow: 0 0 600px rgba(229,9,20,0.15);
-  }
+.quote-author {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--accent);
+  animation: quoteIn 1s ease 0.7s both;
 }
 
 body.intro-active { overflow: hidden; }
@@ -557,7 +506,7 @@ body { counter-reset: section; }
 .photo-frame {
   position: sticky; top: 100px;
   border: 1px solid var(--glass-border);
-  border-radius: var(--radius) var(--radius) 0 0;
+  border-radius: var(--radius);
   overflow: hidden;
   background: var(--bg-card);
 }
@@ -593,23 +542,6 @@ body { counter-reset: section; }
   width: 3px; height: 100%;
   background: var(--accent);
 }
-.about-details-strip {
-  border: 1px solid var(--glass-border);
-  border-top: none;
-  border-radius: 0 0 var(--radius) var(--radius);
-  overflow: hidden;
-  background: var(--glass);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-}
-.about-details-strip .detail-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 20px;
-  border-bottom: 1px solid var(--border);
-  gap: 16px;
-}
-.about-details-strip .detail-row:last-child { border-bottom: none; }
-
 .about-text {
   font-size: 16px; line-height: 1.8;
   color: var(--text-muted);
@@ -861,31 +793,25 @@ body { counter-reset: section; }
 .card-info p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
 .portfolio-card.hidden { display: none; }
 
-/* INSTAGRAM CARD */
+/* INSTAGRAM CARD — typographic stat thumb */
 .card-thumb--ig {
   background: rgba(255, 255, 255, 0.02);
+  flex-direction: column;
+  gap: 6px;
 }
-.card-views {
-  position: absolute; top: 12px; right: 12px; z-index: 2;
+.ig-stat {
+  font-family: var(--font-head);
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1;
+  letter-spacing: 3px;
+  color: var(--text);
+  text-transform: uppercase;
+}
+.ig-stat-label {
   font-family: var(--font-mono);
-  font-size: 10px; font-weight: 700;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  padding: 4px 12px;
-  background: var(--accent);
-  color: #000;
-  border-radius: 999px;
-}
-.ig-logo {
-  width: 52px; height: 52px;
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  opacity: 0.7;
-  transition: opacity var(--transition), transform var(--transition);
-}
-.portfolio-card:hover .ig-logo {
-  opacity: 0;
-  transform: translate(-50%, -50%) scale(0.8);
+  font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
 }
 
 /* PORTFOLIO EMPTY STATE */
@@ -967,27 +893,17 @@ body { counter-reset: section; }
   color: var(--accent);
   margin-bottom: 28px;
 }
-.skill-item {
-  margin-bottom: 20px;
-}
-.skill-name {
+.tool-list { list-style: none; }
+.tool-list li {
   font-size: 14px; font-weight: 500;
   color: var(--text-muted);
-  display: block; margin-bottom: 8px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--border);
+  transition: color var(--transition), padding-left var(--transition);
 }
-.skill-bar {
-  height: 3px;
-  background: var(--border);
-  border-radius: 999px;
-  position: relative; overflow: hidden;
-}
-.skill-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--accent), rgba(255,60,0,0.5));
-  width: 0;
-  transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.skill-fill.animated { width: var(--w); }
+.tool-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.tool-list li:first-child { padding-top: 0; }
+.tool-list li:hover { color: var(--text); padding-left: 6px; }
 
 /* ============================================
    RECOGNITION

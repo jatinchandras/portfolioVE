@@ -3,16 +3,16 @@
    ============================================ */
 
 // ============================================
-// INTRO LOADER — NETFLIX STYLE
+// INTRO — QUOTE FADE
 // ============================================
 (function () {
   const intro = document.getElementById('intro');
   document.body.classList.add('intro-active');
-  // All animation runs via pure CSS keyframes — no class toggling
+  // Quote fades in (CSS), holds, overlay fades out at 2.5s + 0.7s
   setTimeout(() => {
     intro.remove();
     document.body.classList.remove('intro-active');
-  }, 3200);
+  }, 3250);
 })();
 
 // CURSOR
@@ -81,20 +81,6 @@ reveals.forEach((el, i) => {
   el.dataset.delay = idx * 80;
   revealObserver.observe(el);
 });
-
-// SKILL BAR ANIMATION
-const skillObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.querySelectorAll('.skill-fill').forEach((bar, i) => {
-        setTimeout(() => bar.classList.add('animated'), i * 100);
-      });
-      skillObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.3 });
-
-document.querySelectorAll('.skill-group').forEach(group => skillObserver.observe(group));
 
 // LIGHTBOX
 const lightbox = document.getElementById('lightbox');
