@@ -42,10 +42,13 @@ document.querySelectorAll('a, button, .portfolio-card, .recognition-card').forEa
   el.addEventListener('mouseleave', () => follower.classList.remove('expanded'));
 });
 
-// NAV SCROLL
+// NAV SCROLL + SCROLL PROGRESS
 const nav = document.getElementById('nav');
+const scrollProgress = document.getElementById('scroll-progress');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  scrollProgress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
 });
 
 // HAMBURGER

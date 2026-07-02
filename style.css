@@ -166,6 +166,45 @@ strong.highlight { color: var(--accent); font-weight: 600; }
   border-color: var(--accent);
 }
 
+/* SCROLL PROGRESS */
+.scroll-progress {
+  position: fixed; top: 0; left: 0;
+  height: 2px; width: 0;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+  z-index: 10001;
+  transition: width 0.1s linear;
+}
+
+/* SIDE RAIL — fixed vertical email (desktop only) */
+.side-rail {
+  position: fixed; right: 32px; bottom: 0; z-index: 900;
+  display: flex; flex-direction: column; align-items: center; gap: 20px;
+}
+.side-rail a {
+  writing-mode: vertical-rl;
+  font-family: var(--font-mono);
+  font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  transition: color var(--transition);
+}
+.side-rail a:hover { color: var(--accent); }
+.side-rail-line { width: 1px; height: 90px; background: var(--border); }
+@media (max-width: 1200px) { .side-rail { display: none; } }
+
+/* HERO CORNER FRAME — viewfinder brackets */
+.hero-frame { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.hf {
+  position: absolute; width: 22px; height: 22px;
+  border-color: var(--accent-glow); border-style: solid; border-width: 0;
+}
+.hf-tl { top: 96px; left: 32px; border-top-width: 1px; border-left-width: 1px; }
+.hf-tr { top: 96px; right: 32px; border-top-width: 1px; border-right-width: 1px; }
+.hf-bl { bottom: 32px; left: 32px; border-bottom-width: 1px; border-left-width: 1px; }
+.hf-br { bottom: 32px; right: 32px; border-bottom-width: 1px; border-right-width: 1px; }
+@media (max-width: 768px) { .hero-frame { display: none; } }
+
 /* CONTAINER */
 .container {
   max-width: 1200px;
@@ -442,12 +481,19 @@ nav.scrolled {
 }
 .section-dark { background: var(--bg-dark); }
 
+body { counter-reset: section; }
 .section-label {
   font-family: var(--font-mono);
   font-size: 12px; letter-spacing: 3px;
   color: var(--accent);
   margin-bottom: 16px;
   text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 10px;
+}
+.section-label::before {
+  counter-increment: section;
+  content: "(" counter(section, decimal-leading-zero) ")";
+  color: var(--text-dim);
 }
 .section-title {
   font-family: var(--font-head);
