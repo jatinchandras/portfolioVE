@@ -15,6 +15,26 @@
   }, 3200);
 })();
 
+// FLOATING EMBERS
+(function () {
+  const wrap = document.getElementById('embers');
+  if (!wrap || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const COUNT = 26;
+  for (let i = 0; i < COUNT; i++) {
+    const e = document.createElement('span');
+    e.className = 'ember';
+    const size = 1.5 + Math.random() * 3;         // 1.5–4.5px
+    const dur = 10 + Math.random() * 16;           // 10–26s rise
+    e.style.left = Math.random() * 100 + 'vw';
+    e.style.width = e.style.height = size + 'px';
+    e.style.animationDuration = dur + 's';
+    e.style.animationDelay = -Math.random() * dur + 's';
+    e.style.setProperty('--drift', (Math.random() * 120 - 60) + 'px');
+    e.style.setProperty('--peak', (0.3 + Math.random() * 0.5).toFixed(2));
+    wrap.appendChild(e);
+  }
+})();
+
 // CURSOR
 const cursor = document.getElementById('cursor');
 const follower = document.getElementById('cursor-follower');
@@ -48,7 +68,9 @@ const scrollProgress = document.getElementById('scroll-progress');
 window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 60);
   const max = document.documentElement.scrollHeight - window.innerHeight;
-  scrollProgress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+  const ratio = max > 0 ? window.scrollY / max : 0;
+  scrollProgress.style.width = ratio * 100 + '%';
+  document.documentElement.style.setProperty('--scroll', ratio);
 });
 
 // HAMBURGER
