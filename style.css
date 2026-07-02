@@ -115,9 +115,9 @@ body.intro-active { overflow: hidden; }
 
 /* RESET */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; background: var(--bg); }
 body {
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
   font-family: var(--font-body);
   font-size: 16px;
@@ -133,6 +133,28 @@ strong.highlight { color: var(--accent); font-weight: 600; }
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg); }
 ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+/* BACKGROUND FX — dot grid + drifting accent glows */
+.bg-fx {
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.035) 1px, transparent 0);
+  background-size: 34px 34px;
+}
+.bg-fx::before {
+  content: '';
+  position: absolute; inset: -25%;
+  background:
+    radial-gradient(500px circle at 78% 12%, rgba(255, 60, 0, 0.10), transparent 60%),
+    radial-gradient(620px circle at 12% 82%, rgba(255, 60, 0, 0.06), transparent 60%);
+  animation: bgDrift 26s ease-in-out infinite alternate;
+}
+@keyframes bgDrift {
+  from { transform: translate(0, 0); }
+  to   { transform: translate(3%, -3%); }
+}
 
 /* NOISE OVERLAY */
 .noise {
